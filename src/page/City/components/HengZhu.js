@@ -1,12 +1,59 @@
 import React, { PureComponent } from 'react';
 import { Chart, Axis, Geom, Tooltip, Legend, Coord } from 'bizcharts';
+import {HttpClientImmidIot} from "../../../common/HttpClientImmidIot";
 import DataSet from "@antv/data-set";
 const { DataView } = DataSet;
 
 export default class HengZhu extends PureComponent {
+    constructor(props) {
+          super(props);
+          this.state = {
+              list:[],
+          };
+      }
+    // 组件挂载之前
+    componentWillMount() {
+    }
 
+    // 组件挂载后
+    componentDidMount() {
+        this.loadData();
+           // if (window.checkPageEnable('/AbnormalParkingAlarm')) {
+           //     this.loadData();
+           // }
+    }
+
+    // 组件卸载之前
+    componentWillUnmount() {
+
+    }
+
+    //loadData
+    loadData(){
+        let base = 'https://www.easy-mock.com/mock/5cd0f2f3682f200251f31dd3/immidiot';
+        HttpClientImmidIot.query(base+'/parking-report/dataVisualizations/city/440300/parkingHotPointWarning', 'GET', null, this.handleQueryData.bind(this));
+    }
+
+    //回调函数
+    handleQueryData(d, type){
+        let list1=[];
+        if(!(d.data==undefined)){
+            for(let i=0;i<d.data.length;i++){
+                list1[i] = {
+                    type: d.data[i].parkingName,
+                    group: d.data[i].parkingName,
+                    周转率: d.data[i].rotationRate,
+                    饱和度: d.data[i].saturation,
+                }
+            }
+        }
+        this.setState({
+            list:list1,
+        });
+    }
   render() {
-    const datazz = [
+      const {list} = this.state;
+      const datazz = [
           {
             group: "深圳万象天地停车场",
             type: "深圳万象天地停车场",
@@ -38,7 +85,7 @@ export default class HengZhu extends PureComponent {
           }
         ];
         const dvzz = new DataView();
-        dvzz.source(datazz)
+        dvzz.source(list)
           .transform({
             type: "map",
 

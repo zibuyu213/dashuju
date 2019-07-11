@@ -27,64 +27,16 @@ export var HttpClientImmidIot = (function () {
 
     function query(url, rtype, data, callback, contentType = 'application/json;charset=UTF-8', processData = true) {
         //console.log(REQUEST + "--" + url + "--Params:", data);
-        if (REQUEST === "mock") {
-            httpClientHost = 'https://unicom.triplego.cn';
-            $(function () {
-                $.ajax({
-                    "url": httpClientHost + url,
-                    "async": true,
-                    "cache": false,
-                    "method": rtype,
-                    "data": data,
-                    "processData": processData,
-                    "dataType": 'json',
-                    "contentType": contentType,
-                    "xhrFields": {
-                        "withCredentials": true,
-                    },
-                    // "headers": headers,
-                    timeout: 40000,
-                    "crossDomain": true,
-                    success: function (d) {
-                      callback(d, requestSuccess);
-                        if (d.success) {
-                            //成功
-                            console.log(REQUEST + "--" + url + "--Success:", d);
-                        } else {
-                            // //可以处理d.error.code
-                            // if (d.error.code === 10014 || d.error.code === 10015) {// 登录失效 || 用户不存在
-                            //     window.window.isInvalidToLogin = true;
-                            //     sessionStorage.clear();
-                            //     localStorage.clear();
-                            //     window.setPageMenu([]);
-                            //     window.setPermission({});
-                            //     window.setManagePartnerList([]);
-                            //     window.currentIsSystemAdmin = false;
-                            //     if (d.error.code === 10014) {
-                            //         location.hash = '/Login';
-                            //     } else {
-                            //         callback(d, requestSuccess);
-                            //         const hash = location.hash;
-                            //         if (!hash.match('Login')) {
-                            //             location.hash = '/Login';
-                            //         }
-                            //     }
-                            // } else {
-                            //     message.error(d.error.message);
-                            //     callback(d, requestDataError);
-                            // }
-                        }
-                    },
-                    error: function (e) {
-                        //服务异常
-                        console.error(REQUEST + "--" + url + "--Error:", e);
-                        message.error("服务器异常！");
-                        callback(e, requestServiceError);
-                    }
-                });
-            })
-        } else if (REQUEST === "truth") {
-            httpClientHost = 'https://unicom.triplego.cn';
+        let httpUrl = '';
+        httpClientHost = 'https://unicom.triplego.cn';
+        if (url.indexOf('http') > -1) {
+            httpUrl = url;
+            // 中间件接口，增加几个公共参数
+        } else if (url.indexOf('easy-mock') > -1) {
+            httpUrl = url.replace(/easy-mock/, 'https://www.easy-mock.com/mock/5cd0f2f3682f200251f31dd3/immidiot');
+        } else {
+            httpUrl = httpClientHost + url
+        }
             let headers = null;
             let header_token = null;
             // if ((url === window.window.MODULE_PARKING_AUTHORITY + '/admin/token') || (url === window.MODULE_PARKING_AUTHORITY + '/configureInfo/getLogoConfig')) { // 判断是否是登录接口
@@ -98,7 +50,7 @@ export var HttpClientImmidIot = (function () {
             headers = {"Authorization": header_token};
             $(function () {
                 $.ajax({
-                    "url": httpClientHost + url,
+                    "url": httpUrl,
                     "async": true,
                     "cache": false,
                     "method": rtype,
@@ -150,7 +102,6 @@ export var HttpClientImmidIot = (function () {
                     }
                 });
             })
-        }
     }
 
     return {

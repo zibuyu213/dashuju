@@ -4,7 +4,7 @@ import {HttpClientImmidIot} from "../../../common/HttpClientImmidIot";
 import DataSet from "@antv/data-set";
 const { DataView } = DataSet;
 
-export default class LeiDa extends PureComponent {
+export default class LeiDa1 extends PureComponent {
     constructor(props) {
           super(props);
           this.state = {
@@ -31,7 +31,7 @@ export default class LeiDa extends PureComponent {
     //loadData
     loadData(){
         let base = 'https://www.easy-mock.com/mock/5cd0f2f3682f200251f31dd3/immidiot';
-        HttpClientImmidIot.query(base+'/parking-report/dataVisualizations/city/440300/turnoverRate', 'GET', null, this.handleQueryData.bind(this));
+        HttpClientImmidIot.query(base+'/parking-report/dataVisualizations/city/440300/earnRate', 'GET', null, this.handleQueryData.bind(this));
     }
 
     //回调函数
@@ -41,7 +41,7 @@ export default class LeiDa extends PureComponent {
             for(let i=0;i<d.data.length;i++){
                 list1[i]={
                     item:d.data[i].name,
-                    百分比:d.data[i].count,
+                    收入总额:d.data[i].count,
                 }
             }
         }
@@ -55,45 +55,45 @@ export default class LeiDa extends PureComponent {
       const data = [
           {
             item: "福田区",
-            百分比: 70
+            收入总额: 70
           },
           {
             item: "宝安区",
-            百分比: 60
+            收入总额: 60
           },
           {
             item: "南山区",
-            百分比: 50
+            收入总额: 50
           },
           {
             item: "罗湖区",
-            百分比: 40
+            收入总额: 40
           },
           {
             item: "龙华区",
-            百分比: 60
+            收入总额: 60
           },
           {
             item: "光明区",
-            百分比: 70
+            收入总额: 70
           },
           {
             item: "龙岗区",
-            百分比: 50
+            收入总额: 50
           },
           {
             item: "大鹏区",
-            百分比: 30
+            收入总额: 30
           },
           {
             item: "坪山区",
-            百分比: 60
+            收入总额: 60
           }
         ];
         const dv = new DataView().source(list);
         dv.transform({
           type: "fold",
-          fields: ["百分比"],
+          fields: ["收入总额"],
           // 展开字段集
           key: "user",
           // key字段
