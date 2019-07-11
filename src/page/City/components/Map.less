@@ -1,0 +1,64 @@
+.content-window-card {
+    position: relative;
+    box-shadow: none;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    padding: 0;
+}
+
+.info-middle {
+    padding: 30px;
+    // line-height: 20px;
+    border: none;
+    background: no-repeat;
+    color: white;
+    height: 280px;
+    width: 289px;
+    background-size: cover;
+}
+
+.info-head {
+    color: rgb(237, 218, 65);
+    font-size: 23px;
+    text-align: center;
+}
+
+.indicators {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+
+    span {
+        color: rgb(14, 149, 216);
+    }
+}
+
+.markerPoint {
+    // position: absolute;
+    display: inline-block;
+    z-index: 22;
+    width: 14px;
+    height: 14px;
+
+    &:after {
+        content: ' ';
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: none;
+        // border: solid 1px rgb(117, 253, 252);
+        // background: radial-gradient(#c62f2f 5%, rgb(117, 253, 252), rgb(117, 253, 252));
+        background: rgb(117, 253, 252);
+        border-radius: 50%;
+        position: absolute;
+        
+        z-index: 20;
+    }
+    border-radius: 50%;
+
+    &:hover {
+        box-shadow: 0 0 0 10px rgba(117, 253, 252, 0.4);
+    }
+}
